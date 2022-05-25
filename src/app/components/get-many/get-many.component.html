@@ -1,0 +1,92 @@
+<div class="get-many-container">
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="authTwinRefId">Parent twin:</label>
+      <input
+        type="text"
+        id="authTwinRefId"
+        name="authTwinRefId"
+        placeholder="parent twin id"
+        [(ngModel)]="model.authTwinRefId"
+      />
+    </div>
+    <div class="form-field">
+      <label>
+        <input
+          type="checkbox"
+          id="includeActivityDescendants"
+          name="includeActivityDescendants"
+          [(ngModel)]="model.includeActivityDescendants"
+        />
+        Include activity descendants
+      </label>
+    </div>
+    <div class="form-field">
+      <label>
+        <input
+          type="checkbox"
+          id="includeAuthTwinDescendants"
+          name="includeAuthTwinDescendants"
+          [(ngModel)]="model.includeAuthTwinDescendants"
+        />
+        Include twin descendants
+      </label>
+    </div>
+    <div class="form-field">
+      <label for="statusCode">Status:</label>
+      <select id="statusCode" name="statusCode" [(ngModel)]="model.statusCode">
+        <option></option>
+        <option [value]="1">Open</option>
+        <option [value]="2">Completed</option>
+        <option [value]="3">Canceled</option>
+        <option [value]="4">Blocked</option>
+        <option [value]="5">In progress</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="priorityCode">Priority:</label>
+      <select
+        id="priorityCode"
+        name="priorityCode"
+        [(ngModel)]="model.priorityCode"
+      >
+        <option></option>
+        <option [value]="1">Low</option>
+        <option [value]="2">Normal</option>
+        <option [value]="3">High</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="startTime">Start time:</label>
+      <input
+        type="date"
+        id="startTime"
+        name="startTime"
+        [(ngModel)]="model.startTime"
+      />
+    </div>
+    <div class="form-field">
+      <label for="endTime">End time:</label>
+      <input
+        type="date"
+        id="endTime"
+        name="endTime"
+        [(ngModel)]="model.endTime"
+      />
+    </div>
+    <div class="form-field">
+      <label for="scheduleId">Schedule:</label>
+      <input
+        type="text"
+        id="scheduleId"
+        name="scheduleId"
+        placeholder="schedule id"
+        [(ngModel)]="model.authTwinRefId"
+      />
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+</div>
+<div class="results">
+  <app-return-summary [result]="activityReturn"></app-return-summary>
+</div>

@@ -1,0 +1,11 @@
+<h3>Activies CRUD tester</h3>
+<input
+  type="text"
+  name="authToken"
+  placeholder="Please provide authentication token"
+  required
+  [(ngModel)]="authToken"
+  (ngModelChange)="updateAuthToken()"
+/>
+<div *ngIf="!authToken">Authentication token is required for all requests</div>
+<router-outlet></router-outlet>

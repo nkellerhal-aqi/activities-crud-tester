@@ -1,0 +1,25 @@
+<li>
+  <div *ngIf="activity" class="activity-summary">
+    <div class="entry-field">{{ "Id: " + activity.id }}</div>
+    <div class="entry-field">{{ "Twin id: " + activity.authTwinRefId }}</div>
+    <div class="entry-field">{{ "Parent id: " + activity.parentId }}</div>
+    <div class="entry-field">{{ "Owner id: " + activity.owningUserId }}</div>
+    <div class="entry-field">{{ "Priority: " + priorityCode }}</div>
+    <div class="entry-field">{{ "Schedule id: " + activity.scheduleId }}</div>
+    <div class="entry-field">
+      {{ "Schedule start: " + activity.scheduledStart.jsonDateTime }}
+    </div>
+    <div class="entry-field">
+      {{ "Schedule end: " + activity.scheduledEnd.jsonDateTime }}
+    </div>
+    <div class="entry-field">{{ "Subject: " + activity.subject }}</div>
+    <div class="entry-field">{{ "Description: " + activity.description }}</div>
+    <div class="entry-field">{{ "Property bag: " + activity.propertyBag }}</div>
+    <div class="entry-field">{{ "Status: " + statusCode }}</div>
+  </div>
+  <ul *ngIf="activity?.children && activity?.children?.length">
+    <ng-container *ngFor="let child of activity?.children">
+      <app-activity-summary [activity]="child"></app-activity-summary>
+    </ng-container>
+  </ul>
+</li>
