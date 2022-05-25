@@ -34,6 +34,10 @@ export interface GetByIdParameters extends GeneralGetParameters {
   includeDescendants: boolean;
 }
 
+export interface DeleteParameters {
+  includeDescendants: boolean;
+}
+
 export interface ClarosDateTime {
   jsonDateTime: string;
   ticks?: number;

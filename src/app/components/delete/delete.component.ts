@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { first, Subject, takeUntil } from 'rxjs';
-import { Activity, GetByIdParameters } from 'src/app/app-data.models';
+import { Activity, DeleteParameters } from 'src/app/app-data.models';
 import { ApiError, DataService } from 'src/app/app-data.service';
 
 @Component({
-  selector: 'app-get-by-id',
-  templateUrl: './get-by-id.component.html',
-  styleUrls: ['./get-by-id.component.scss'],
+  selector: 'app-delete',
+  templateUrl: './delete.component.html',
+  styleUrls: ['./delete.component.scss'],
 })
-export class GetByIdComponent implements OnInit, OnDestroy {
+export class DeleteComponent implements OnInit, OnDestroy {
   id?: string;
-  model: GetByIdParameters;
+  model: DeleteParameters;
   activityReturn?: Activity[] | ApiError;
 
   private destroy$ = new Subject<void>();
@@ -31,7 +31,7 @@ export class GetByIdComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.id) {
       this.dataService
-        .makeGetCall(this.model, 'v1', this.id)
+        .makeDeleteCall(this.model, 'v1', this.id)
         .pipe(first(), takeUntil(this.destroy$))
         .subscribe((result) => (this.activityReturn = result));
     }

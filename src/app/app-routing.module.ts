@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './components/create/create.component';
+import { DeleteComponent } from './components/delete/delete.component';
 import { GetByIdComponent } from './components/get-by-id/get-by-id.component';
 import { GetManyComponent } from './components/get-many/get-many.component';
 
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreateComponent,
+  },
+  {
+    path: 'delete',
+    component: DeleteComponent,
   },
   {
     path: '',

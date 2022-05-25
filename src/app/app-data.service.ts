@@ -84,6 +84,28 @@ export class DataService {
     );
   }
 
+  makeDeleteCall(params: any, ending: string, id: string) {
+    delete params.repeatCount;
+
+    return this.authToken$.pipe(
+      first(),
+      exhaustMap((token) => {
+        const url = this.getUrl(ending, id);
+        const httpOptions = this.getHttpOptions(token, params);
+
+        return this.http
+          .delete<ActivitiesReturnWrapper>(url, {
+            ...httpOptions,
+            observe: 'response',
+          })
+          .pipe(
+            map((result) => this.getActivitiesOrApiError(result)),
+            catchError((error) => of(this.mapError(error)))
+          );
+      })
+    );
+  }
+
   private getUrl(ending: string, id?: string): string {
     const path = `https://api-${this.environment}-${this.region}.${this.domain}/common/activity/${ending}/`;
 
@@ -114,7 +136,8 @@ export class DataService {
       result &&
       result.content &&
       result.content.activities &&
-      result.content.activities.items
+      result.content.activities.items &&
+      result.content.activities.items.length > 0
     ) {
       return result.content.activities.items;
     } else if (result && result.errors && result.errors.length) {
