@@ -1,11 +1,6 @@
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, exhaustMap, first, map, of } from 'rxjs';
+import { BehaviorSubject, catchError, exhaustMap, first, map, Observable, of } from 'rxjs';
 import { Activity } from './app-data.models';
 
 export interface ApiError {
@@ -40,13 +35,13 @@ export class DataService {
     this.authToken$.next(value);
   }
 
-  makeGetCall(params: any, ending: string, id?: string) {
+  makeGetCall(params: any, id?: string): Observable<Activity[] | ApiError> {
     delete params.repeatCount;
 
     return this.authToken$.pipe(
       first(),
       exhaustMap((token) => {
-        const url = this.getUrl(ending, id);
+        const url = this.getUrl(id);
         const httpOptions = this.getHttpOptions(token, params);
 
         return this.http
@@ -62,13 +57,13 @@ export class DataService {
     );
   }
 
-  makePostCall(activities: Partial<Activity>[], ending: string) {
+  makePostCall(activities: Partial<Activity>[]): Observable<Activity[] | ApiError> {
     const activitiesCollection: ActivitiesCollection = { items: activities };
 
     return this.authToken$.pipe(
       first(),
       exhaustMap((token) => {
-        const url = this.getUrl(ending);
+        const url = this.getUrl();
         const httpOptions = this.getHttpOptions(token);
 
         return this.http
@@ -84,13 +79,35 @@ export class DataService {
     );
   }
 
-  makeDeleteCall(params: any, ending: string, id: string) {
+  makePutCall(activities: Partial<Activity>[]): Observable<Activity[] | ApiError> {
+    const activitiesCollection: ActivitiesCollection = { items: activities };
+
+    return this.authToken$.pipe(
+      first(),
+      exhaustMap((token) => {
+        const url = this.getUrl();
+        const httpOptions = this.getHttpOptions(token);
+
+        return this.http
+          .put<ActivitiesReturnWrapper>(url, activitiesCollection, {
+            ...httpOptions,
+            observe: 'response',
+          })
+          .pipe(
+            map((result) => this.getActivitiesOrApiError(result)),
+            catchError((error) => of(this.mapError(error)))
+          );
+      })
+    );
+  }
+
+  makeDeleteCall(params: any, id: string): Observable<Activity[] | ApiError> {
     delete params.repeatCount;
 
     return this.authToken$.pipe(
       first(),
       exhaustMap((token) => {
-        const url = this.getUrl(ending, id);
+        const url = this.getUrl(id);
         const httpOptions = this.getHttpOptions(token, params);
 
         return this.http
@@ -106,8 +123,8 @@ export class DataService {
     );
   }
 
-  private getUrl(ending: string, id?: string): string {
-    const path = `https://api-${this.environment}-${this.region}.${this.domain}/common/activity/${ending}/`;
+  private getUrl(id?: string): string {
+    const path = `https://api-${this.environment}-${this.region}.${this.domain}/common/activity/v1/`;
 
     return id ? `${path}/${id}` : path;
   }

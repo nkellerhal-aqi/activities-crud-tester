@@ -41,7 +41,7 @@ export class GetManyComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.dataService
-      .makeGetCall(this.mapFormToParams(this.model), 'v1')
+      .makeGetCall(this.mapFormToParams(this.model))
       .pipe(first(), takeUntil(this.destroy$))
       .subscribe((result) => (this.activityReturn = result));
   }

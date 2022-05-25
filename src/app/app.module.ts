@@ -11,9 +11,10 @@ import { ActivitySummaryComponent } from './components/activity-summary/activity
 import { CreateComponent } from './components/create/create.component';
 import { GetByIdComponent } from './components/get-by-id/get-by-id.component';
 import { DeleteComponent } from './components/delete/delete.component';
+import { UpdateComponent } from './components/update/update.component';
 
 @NgModule({
-  declarations: [AppComponent, GetManyComponent, ReturnSummaryComponent, ActivitySummaryComponent, CreateComponent, GetByIdComponent, DeleteComponent],
+  declarations: [AppComponent, GetManyComponent, ReturnSummaryComponent, ActivitySummaryComponent, CreateComponent, GetByIdComponent, DeleteComponent, UpdateComponent],
   imports: [AppRoutingModule, BrowserModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

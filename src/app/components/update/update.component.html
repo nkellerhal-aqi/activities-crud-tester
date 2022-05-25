@@ -18,6 +18,7 @@
         name="id"
         placeholder="activity id"
         [(ngModel)]="model.id"
+        required
       />
     </div>
     <div class="form-field">
@@ -124,21 +125,19 @@
     </button>
   </form>
   <table>
-    <tr *ngFor="let activity of createCollection">
-      <td>{{ activity.subject }}</td>
-      <td>{{ getStatusDisplay(activity) }}</td>
-      <td>{{ getPriorityDisplay(activity) }}</td>
+    <tr *ngFor="let activity of updateCollection">
+      <td>{{ activity.id }}</td>
     </tr>
   </table>
   <button
     type="button"
     class="btn btn-success"
-    [disabled]="createCollection.length <= 0"
+    [disabled]="updateCollection.length <= 0"
     (click)="onSubmit()"
   >
-    Create
+    Update
   </button>
 </div>
-<div class="results" *ngIf="createReturn">
-  <app-return-summary [result]="createReturn"></app-return-summary>
+<div class="results" *ngIf="updateReturn">
+  <app-return-summary [result]="updateReturn"></app-return-summary>
 </div>

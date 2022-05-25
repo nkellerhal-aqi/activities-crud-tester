@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { first, Subject, takeUntil } from 'rxjs';
 import {
   Activity,
@@ -7,47 +7,42 @@ import {
 } from 'src/app/app-data.models';
 import { ApiError, DataService } from 'src/app/app-data.service';
 
-export interface createFormModel {
-  id?: string;
+export interface updateFormModel {
+  id: string;
   authTwinRefId?: string;
   parentId?: string;
   owningUserId?: string;
-  priorityCode: EnumActivityPriority;
+  priorityCode?: EnumActivityPriority;
   activityTypeId?: string;
   scheduleId?: string;
   startTime?: string;
   endTime?: string;
-  subject: string;
-  description: string;
+  subject?: string;
+  description?: string;
   propertyBag?: string;
-  statusCode: EnumActivityStatus;
+  statusCode?: EnumActivityStatus;
 }
 
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss'],
+  selector: 'app-update',
+  templateUrl: './update.component.html',
+  styleUrls: ['./update.component.scss'],
 })
-export class CreateComponent implements OnInit, OnDestroy {
-  model: createFormModel;
-  createCollection: Partial<Activity>[];
-  createReturn?: Activity[] | ApiError;
+export class UpdateComponent implements OnInit {
+  model: updateFormModel;
+  updateCollection: Partial<Activity>[];
+  updateReturn?: Activity[] | ApiError;
 
   private destroy$ = new Subject<void>();
 
   constructor(private dataService: DataService) {
-    this.model = {
-      subject: '',
-      description: '',
-      priorityCode: EnumActivityPriority.ACTIVITY_PRIORITY_UNKNOWN,
-      statusCode: EnumActivityStatus.ACTIVITY_STATUS_UNKNOWN,
-    };
-    this.createCollection = [];
+    this.model = { id: '' };
+    this.updateCollection = [];
   }
 
-  ngOnInit() {
-    this.resetModel();
-    this.createCollection = [];
+  ngOnInit(): void {
+    this.model = { id: '' };
+    this.updateCollection = [];
   }
 
   ngOnDestroy(): void {
@@ -56,15 +51,15 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   onAdd() {
-    this.createCollection.push(this.mapFormToActivity(this.model));
+    this.updateCollection.push(this.mapFormToActivity(this.model));
     this.resetModel();
   }
 
   onSubmit() {
     this.dataService
-      .makePostCall(this.createCollection)
+      .makePutCall(this.updateCollection)
       .pipe(first(), takeUntil(this.destroy$))
-      .subscribe((result) => (this.createReturn = result));
+      .subscribe((result) => (this.updateReturn = result));
   }
 
   getPriorityDisplay(activity: Partial<Activity>): string {
@@ -98,29 +93,24 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   private resetModel() {
-    this.model = {
-      subject: '',
-      description: '',
-      priorityCode: EnumActivityPriority.ACTIVITY_PRIORITY_UNKNOWN,
-      statusCode: EnumActivityStatus.ACTIVITY_STATUS_UNKNOWN,
-    };
+    this.model = { id: '' };
   }
 
-  private mapFormToActivity(form: createFormModel): Partial<Activity> {
+  private mapFormToActivity(form: updateFormModel): Partial<Activity> {
     const activity: Partial<Activity> = { ...form };
 
     if (form.startTime) {
       activity.scheduledStart = { jsonDateTime: form.startTime };
-      delete (activity as createFormModel).startTime;
+      delete (activity as updateFormModel).startTime;
     }
 
     if (form.endTime) {
       activity.scheduledEnd = { jsonDateTime: form.endTime };
-      delete (activity as createFormModel).endTime;
+      delete (activity as updateFormModel).endTime;
     }
 
-    activity.statusCode = +form.statusCode;
-    activity.priorityCode = +form.priorityCode;
+    activity.statusCode = form.statusCode ? +form.statusCode : undefined;
+    activity.priorityCode = form.priorityCode ? +form.priorityCode : undefined;
 
     return activity;
   }

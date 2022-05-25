@@ -31,7 +31,7 @@ export class GetByIdComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.id) {
       this.dataService
-        .makeGetCall(this.model, 'v1', this.id)
+        .makeGetCall(this.model, this.id)
         .pipe(first(), takeUntil(this.destroy$))
         .subscribe((result) => (this.activityReturn = result));
     }
