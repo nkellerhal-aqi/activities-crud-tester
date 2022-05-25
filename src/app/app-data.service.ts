@@ -1,4 +1,9 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, exhaustMap, first, map, of } from 'rxjs';
 import { Activity } from './app-data.models';
@@ -10,12 +15,14 @@ export interface ApiError {
 }
 
 interface ActivitiesCollection {
-  items: Activity[];
+  items: Partial<Activity>[];
 }
 
 interface ActivitiesReturnWrapper {
   content: {
-    activities: ActivitiesCollection;
+    activities: {
+      items: Activity[];
+    };
   };
   errors: ApiError[];
 }
@@ -55,6 +62,28 @@ export class DataService {
     );
   }
 
+  makePostCall(activities: Partial<Activity>[], ending: string) {
+    const activitiesCollection: ActivitiesCollection = { items: activities };
+
+    return this.authToken$.pipe(
+      first(),
+      exhaustMap((token) => {
+        const url = this.getUrl(ending);
+        const httpOptions = this.getHttpOptions(token);
+
+        return this.http
+          .post<ActivitiesReturnWrapper>(url, activitiesCollection, {
+            ...httpOptions,
+            observe: 'response',
+          })
+          .pipe(
+            map((result) => this.getActivitiesOrApiError(result)),
+            catchError((error) => of(this.mapError(error)))
+          );
+      })
+    );
+  }
+
   private getUrl(ending: string, id?: string): string {
     const path = `https://api-${this.environment}-${this.region}.${this.domain}/common/activity/${ending}/`;
 
@@ -63,7 +92,7 @@ export class DataService {
 
   private getHttpOptions(
     authToken: string,
-    params: any
+    params?: any
   ): { headers?: HttpHeaders; params?: any } {
     return {
       headers: new HttpHeaders({

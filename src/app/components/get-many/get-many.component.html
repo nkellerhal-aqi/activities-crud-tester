@@ -1,12 +1,12 @@
 <div class="get-many-container">
   <form (ngSubmit)="onSubmit()">
     <div class="form-field">
-      <label for="authTwinRefId">Parent twin:</label>
+      <label for="authTwinRefId">Auth twin:</label>
       <input
         type="text"
         id="authTwinRefId"
         name="authTwinRefId"
-        placeholder="parent twin id"
+        placeholder="auth twin id"
         [(ngModel)]="model.authTwinRefId"
       />
     </div>
@@ -87,6 +87,6 @@
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
 </div>
-<div class="results">
+<div class="results" *ngIf="activityReturn">
   <app-return-summary [result]="activityReturn"></app-return-summary>
 </div>

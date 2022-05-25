@@ -32,8 +32,8 @@ export interface GetManyParameters extends GeneralGetParameters {
 
 export interface ClarosDateTime {
   jsonDateTime: string;
-  ticks: number;
-  jsonTicksDateTimeCase: number;
+  ticks?: number;
+  jsonTicksDateTimeCase?: number;
 }
 
 export interface AuditEntry {
@@ -49,14 +49,14 @@ export interface Activity {
   parentId: string;
   owningUserId: string;
   priorityCode: EnumActivityPriority;
-  activityTypeId: EnumActivityStatus;
+  activityTypeId: string;
   scheduleId: string;
   scheduledStart: ClarosDateTime;
   scheduledEnd: ClarosDateTime;
   subject: string;
   description: string;
   propertyBag: string;
-  statusCode: number;
+  statusCode: EnumActivityStatus;
   recordAuditInfo: AuditEntry;
 }
 

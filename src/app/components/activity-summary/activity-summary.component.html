@@ -7,14 +7,14 @@
     <div class="entry-field">{{ "Priority: " + priorityCode }}</div>
     <div class="entry-field">{{ "Schedule id: " + activity.scheduleId }}</div>
     <div class="entry-field">
-      {{ "Schedule start: " + activity.scheduledStart.jsonDateTime }}
+      {{ "Schedule start: " + activity.scheduledStart?.jsonDateTime }}
     </div>
     <div class="entry-field">
-      {{ "Schedule end: " + activity.scheduledEnd.jsonDateTime }}
+      {{ "Schedule end: " + activity.scheduledEnd?.jsonDateTime }}
     </div>
     <div class="entry-field">{{ "Subject: " + activity.subject }}</div>
     <div class="entry-field">{{ "Description: " + activity.description }}</div>
-    <div class="entry-field">{{ "Property bag: " + activity.propertyBag }}</div>
+    <div class="entry-field">{{ "Property bag: " + activity?.propertyBag }}</div>
     <div class="entry-field">{{ "Status: " + statusCode }}</div>
   </div>
   <ul *ngIf="activity?.children && activity?.children?.length">

@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { GetManyComponent } from './components/get-many/get-many.component';
 import { ReturnSummaryComponent } from './components/return-summary/return-summary.component';
 import { ActivitySummaryComponent } from './components/activity-summary/activity-summary.component';
+import { CreateComponent } from './components/create/create.component';
 
 @NgModule({
-  declarations: [AppComponent, GetManyComponent, ReturnSummaryComponent, ActivitySummaryComponent],
+  declarations: [AppComponent, GetManyComponent, ReturnSummaryComponent, ActivitySummaryComponent, CreateComponent],
   imports: [AppRoutingModule, BrowserModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

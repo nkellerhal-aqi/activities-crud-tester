@@ -31,8 +31,8 @@ export class ActivitySummaryComponent implements OnInit {
       case EnumActivityPriority.ACTIVITY_PRIORITY_NORMAL:
         this.priorityCode = 'Normal';
         break;
-      case EnumActivityPriority.ACTIVITY_PRIORITY_LOW:
-        this.priorityCode = 'Low';
+      case EnumActivityPriority.ACTIVITY_PRIORITY_HIGH:
+        this.priorityCode = 'High';
         break;
     }
   }
@@ -40,19 +40,19 @@ export class ActivitySummaryComponent implements OnInit {
   private mapStatusCode() {
     switch (this.activity?.statusCode) {
       case EnumActivityStatus.ACTIVITY_STATUS_OPEN:
-        this.priorityCode = 'Open';
+        this.statusCode = 'Open';
         break;
       case EnumActivityStatus.ACTIVITY_STATUS_COMPLETED:
-        this.priorityCode = 'Completed';
+        this.statusCode = 'Completed';
         break;
       case EnumActivityStatus.ACTIVITY_STATUS_CANCELED:
-        this.priorityCode = 'Canceled';
+        this.statusCode = 'Canceled';
         break;
       case EnumActivityStatus.ACTIVITY_STATUS_BLOCKED:
-        this.priorityCode = 'Blocked';
+        this.statusCode = 'Blocked';
         break;
       case EnumActivityStatus.ACTIVITY_STATUS_IN_PROGRESS:
-        this.priorityCode = 'In progress';
+        this.statusCode = 'In progress';
         break;
     }
   }
