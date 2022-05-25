@@ -3,7 +3,7 @@ import { first, Subject, takeUntil } from 'rxjs';
 import { Activity, GetManyParameters } from 'src/app/app-data.models';
 import { ApiError, DataService } from 'src/app/app-data.service';
 
-export interface getManyFormModel extends GetManyParameters {
+export interface GetManyFormModel extends GetManyParameters {
   contextPairs?: { key: string; value: string }[];
 }
 
@@ -13,7 +13,7 @@ export interface getManyFormModel extends GetManyParameters {
   styleUrls: ['./get-many.component.scss'],
 })
 export class GetManyComponent implements OnInit, OnDestroy {
-  model: getManyFormModel;
+  model: GetManyFormModel;
   activityReturn?: Activity[] | ApiError;
 
   private destroy$ = new Subject<void>();
@@ -46,8 +46,8 @@ export class GetManyComponent implements OnInit, OnDestroy {
       .subscribe((result) => (this.activityReturn = result));
   }
 
-  private mapFormToParams(form: getManyFormModel): GetManyParameters {
-    const params: getManyFormModel = { ...form };
+  private mapFormToParams(form: GetManyFormModel): GetManyParameters {
+    const params: GetManyFormModel = { ...form };
 
     if (!form.contextPairs) {
       return params;

@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './components/create/create.component';
+import { GetByIdComponent } from './components/get-by-id/get-by-id.component';
 import { GetManyComponent } from './components/get-many/get-many.component';
 
 const routes: Routes = [
   {
     path: 'get-many',
     component: GetManyComponent,
+  },
+  {
+    path: 'get',
+    component: GetByIdComponent,
   },
   {
     path: 'create',
