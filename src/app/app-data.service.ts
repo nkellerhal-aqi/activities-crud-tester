@@ -1,7 +1,22 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, exhaustMap, first, map, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  exhaustMap,
+  first,
+  map,
+  Observable,
+  of,
+} from 'rxjs';
 import { Activity } from './app-data.models';
+
+export enum Environment {
+  feature = 'feature',
+  integration = 'integration',
+  stage = 'stage',
+}
 
 export interface ApiError {
   statusCode: number;
@@ -25,8 +40,8 @@ interface ActivitiesReturnWrapper {
 @Injectable({ providedIn: 'root' })
 export class DataService {
   private authToken$ = new BehaviorSubject<string>('');
+  private environment$ = new BehaviorSubject<Environment>(Environment.feature);
   private region = 'us';
-  private environment = 'feature';
   private domain = 'aquaticinformatics.net';
 
   constructor(private http: HttpClient) {}
@@ -35,13 +50,17 @@ export class DataService {
     this.authToken$.next(value);
   }
 
+  updateEnvironment(value: Environment) {
+    this.environment$.next(value);
+  }
+
   makeGetCall(params: any, id?: string): Observable<Activity[] | ApiError> {
     delete params.repeatCount;
 
-    return this.authToken$.pipe(
+    return combineLatest([this.authToken$, this.environment$]).pipe(
       first(),
-      exhaustMap((token) => {
-        const url = this.getUrl(id);
+      exhaustMap(([token, environment]) => {
+        const url = this.getUrl(environment, id);
         const httpOptions = this.getHttpOptions(token, params);
 
         return this.http
@@ -57,13 +76,15 @@ export class DataService {
     );
   }
 
-  makePostCall(activities: Partial<Activity>[]): Observable<Activity[] | ApiError> {
+  makePostCall(
+    activities: Partial<Activity>[]
+  ): Observable<Activity[] | ApiError> {
     const activitiesCollection: ActivitiesCollection = { items: activities };
 
-    return this.authToken$.pipe(
+    return combineLatest([this.authToken$, this.environment$]).pipe(
       first(),
-      exhaustMap((token) => {
-        const url = this.getUrl();
+      exhaustMap(([token, environment]) => {
+        const url = this.getUrl(environment);
         const httpOptions = this.getHttpOptions(token);
 
         return this.http
@@ -79,13 +100,15 @@ export class DataService {
     );
   }
 
-  makePutCall(activities: Partial<Activity>[]): Observable<Activity[] | ApiError> {
+  makePutCall(
+    activities: Partial<Activity>[]
+  ): Observable<Activity[] | ApiError> {
     const activitiesCollection: ActivitiesCollection = { items: activities };
 
-    return this.authToken$.pipe(
+    return combineLatest([this.authToken$, this.environment$]).pipe(
       first(),
-      exhaustMap((token) => {
-        const url = this.getUrl();
+      exhaustMap(([token, environment]) => {
+        const url = this.getUrl(environment);
         const httpOptions = this.getHttpOptions(token);
 
         return this.http
@@ -104,10 +127,10 @@ export class DataService {
   makeDeleteCall(params: any, id: string): Observable<Activity[] | ApiError> {
     delete params.repeatCount;
 
-    return this.authToken$.pipe(
+    return combineLatest([this.authToken$, this.environment$]).pipe(
       first(),
-      exhaustMap((token) => {
-        const url = this.getUrl(id);
+      exhaustMap(([token, environment]) => {
+        const url = this.getUrl(environment, id);
         const httpOptions = this.getHttpOptions(token, params);
 
         return this.http
@@ -123,8 +146,8 @@ export class DataService {
     );
   }
 
-  private getUrl(id?: string): string {
-    const path = `https://api-${this.environment}-${this.region}.${this.domain}/common/activity/v1/`;
+  private getUrl(environment: Environment, id?: string): string {
+    const path = `https://api-${environment}-${this.region}.${this.domain}/common/activity/v1/`;
 
     return id ? `${path}/${id}` : path;
   }

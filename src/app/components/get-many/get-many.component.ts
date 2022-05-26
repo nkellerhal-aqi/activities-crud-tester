@@ -15,6 +15,8 @@ export interface GetManyFormModel extends GetManyParameters {
 export class GetManyComponent implements OnInit, OnDestroy {
   model: GetManyFormModel;
   activityReturn?: Activity[] | ApiError;
+  newKey?: string;
+  newValue?: string;
 
   private destroy$ = new Subject<void>();
 
@@ -37,6 +39,18 @@ export class GetManyComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  addContextEntry() {
+    if (this.newKey && this.newValue) {
+      if (!this.model.contextPairs) {
+        this.model.contextPairs = [];
+      }
+
+      this.model.contextPairs.push({ key: this.newKey, value: this.newValue });
+      this.newKey = undefined;
+      this.newValue = undefined;
+    }
   }
 
   onSubmit() {

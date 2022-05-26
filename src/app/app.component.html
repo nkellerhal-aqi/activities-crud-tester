@@ -1,13 +1,30 @@
 <h3>Activies CRUD tester</h3>
-<input
-  type="text"
-  name="authToken"
-  placeholder="Please provide authentication token"
-  required
-  [(ngModel)]="authToken"
-  (ngModelChange)="updateAuthToken()"
-/>
+<div class="form-field">
+  <label for="authToken">Auth Token:</label>
+  <input
+    type="text"
+    id="authToken"
+    name="authToken"
+    placeholder="Please provide authentication token"
+    required
+    [(ngModel)]="authToken"
+    (ngModelChange)="updateAuthToken()"
+  />
+</div>
 <div *ngIf="!authToken">Authentication token is required for all requests</div>
+<div class="form-field">
+  <label for="environment">Environment:</label>
+  <select
+    id="environment"
+    name="environment"
+    [(ngModel)]="environment"
+    (ngModelChange)="updateEnvironment()"
+  >
+    <option value="feature">Feature</option>
+    <option value="integration">Integration</option>
+    <option value="stage">Stage</option>
+  </select>
+</div>
 <button type="button" routerLink="get-many">Get many</button>
 <button type="button" routerLink="get">Get by ID</button>
 <button type="button" routerLink="create">Create</button>

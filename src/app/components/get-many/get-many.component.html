@@ -84,6 +84,39 @@
         [(ngModel)]="model.authTwinRefId"
       />
     </div>
+    <label>Context:</label>
+    <div class="form-field">
+      <table *ngIf="model.contextPairs && model.contextPairs.length > 0">
+        <tr *ngFor="let kvp of model.contextPairs">
+          <td>{{ kvp.key }}:</td>
+          <td>{{ kvp.value }}</td>
+        </tr>
+      </table>
+      <label for="key">Key:</label>
+      <input
+        type="text"
+        id="key"
+        name="key"
+        placeholder="context key"
+        #key="ngModel"
+        [(ngModel)]="newKey"
+      />
+      <label for="key">Value:</label>
+      <input
+        type="text"
+        id="value"
+        name="value"
+        placeholder="context value"
+        #value="ngModel"
+        [(ngModel)]="newValue"
+      />
+      <button
+        [disabled]="!key.value || !value.value"
+        (click)="addContextEntry()"
+      >
+        Add context entry
+      </button>
+    </div>
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
 </div>
