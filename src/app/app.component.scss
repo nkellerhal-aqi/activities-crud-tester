@@ -1,0 +1,19 @@
+.context-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 30vw;
+}
+
+.nav-row {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #DDD;
+}
+
+.nav-active {
+  background-color: #666;
+}

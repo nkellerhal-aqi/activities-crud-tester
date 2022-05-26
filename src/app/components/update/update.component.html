@@ -1,4 +1,5 @@
-<div class="create-container">
+<h3>Update</h3>
+<div class="update-container">
   <form #createForm="ngForm" (ngSubmit)="onAdd()">
     <div class="form-field">
       <label for="authTwinRefId">Auth twin:</label>
@@ -133,21 +134,27 @@
     >
       Add
     </button>
+    <div
+      class="update-collection"
+      *ngIf="updateCollection && updateCollection.length > 0"
+    >
+      <h4>Ready to Update</h4>
+      <table>
+        <tr *ngFor="let activity of updateCollection">
+          <td>{{ activity.id }}</td>
+        </tr>
+      </table>
+      <button
+        type="button"
+        class="btn btn-success"
+        [disabled]="updateCollection.length <= 0"
+        (click)="onSubmit()"
+      >
+        Update
+      </button>
+    </div>
   </form>
-  <table>
-    <tr *ngFor="let activity of updateCollection">
-      <td>{{ activity.id }}</td>
-    </tr>
-  </table>
-  <button
-    type="button"
-    class="btn btn-success"
-    [disabled]="updateCollection.length <= 0"
-    (click)="onSubmit()"
-  >
-    Update
-  </button>
-</div>
-<div class="results" *ngIf="updateReturn">
-  <app-return-summary [result]="updateReturn"></app-return-summary>
+  <div class="results" *ngIf="updateReturn">
+    <app-return-summary [result]="updateReturn"></app-return-summary>
+  </div>
 </div>

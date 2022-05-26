@@ -33,7 +33,11 @@ export class DeleteComponent implements OnInit, OnDestroy {
       this.dataService
         .makeDeleteCall(this.model, this.id)
         .pipe(first(), takeUntil(this.destroy$))
-        .subscribe((result) => (this.activityReturn = result));
+        .subscribe((result) => {
+          this.activityReturn = result;
+          this.id = undefined;
+          this.model = { includeDescendants: false };
+        });
     }
   }
 }

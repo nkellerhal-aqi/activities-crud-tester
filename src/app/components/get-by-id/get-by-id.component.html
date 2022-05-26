@@ -1,7 +1,8 @@
-<div class="get-many-container">
+<h3>Get By ID</h3>
+<div class="get-by-id-container">
   <form #getForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="form-field">
-      <label for="id">ID:</label>
+      <label for="id">ID</label>
       <input
         type="text"
         id="id"
@@ -30,7 +31,7 @@
       Submit
     </button>
   </form>
-</div>
-<div class="results" *ngIf="activityReturn">
-  <app-return-summary [result]="activityReturn"></app-return-summary>
+  <div class="results" *ngIf="activityReturn">
+    <app-return-summary [result]="activityReturn"></app-return-summary>
+  </div>
 </div>

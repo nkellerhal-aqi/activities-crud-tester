@@ -64,7 +64,10 @@ export class CreateComponent implements OnInit, OnDestroy {
     this.dataService
       .makePostCall(this.createCollection)
       .pipe(first(), takeUntil(this.destroy$))
-      .subscribe((result) => (this.createReturn = result));
+      .subscribe((result) => {
+        this.createReturn = result;
+        this.createCollection = [];
+      });
   }
 
   getPriorityDisplay(activity: Partial<Activity>): string {

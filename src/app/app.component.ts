@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService, Environment } from './app-data.service';
 
 @Component({
@@ -10,13 +11,13 @@ export class AppComponent {
   authToken = '';
   environment = Environment.feature;
 
-  constructor(private dataService: DataService) {}
+  constructor(public router: Router, private dataService: DataService) {}
 
   updateAuthToken() {
     this.dataService.updateAuthToken(this.authToken);
   }
 
   updateEnvironment() {
-    this.dataService.updateEnvironment(this.environment);
+    this.dataService.updateEnvironment(this.environment)
   }
 }

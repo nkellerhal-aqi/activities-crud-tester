@@ -1,3 +1,4 @@
+<h3>Create</h3>
 <div class="create-container">
   <form #createForm="ngForm" (ngSubmit)="onAdd()">
     <div class="form-field">
@@ -132,23 +133,29 @@
     >
       Add
     </button>
+    <div
+      class="create-collection"
+      *ngIf="createCollection && createCollection.length > 0"
+    >
+      <h4>Ready to Create</h4>
+      <table>
+        <tr *ngFor="let activity of createCollection">
+          <td>{{ activity.subject }}</td>
+          <td>{{ getStatusDisplay(activity) }}</td>
+          <td>{{ getPriorityDisplay(activity) }}</td>
+        </tr>
+      </table>
+      <button
+        type="button"
+        class="btn btn-success"
+        [disabled]="createCollection.length <= 0"
+        (click)="onSubmit()"
+      >
+        Create
+      </button>
+    </div>
   </form>
-  <table>
-    <tr *ngFor="let activity of createCollection">
-      <td>{{ activity.subject }}</td>
-      <td>{{ getStatusDisplay(activity) }}</td>
-      <td>{{ getPriorityDisplay(activity) }}</td>
-    </tr>
-  </table>
-  <button
-    type="button"
-    class="btn btn-success"
-    [disabled]="createCollection.length <= 0"
-    (click)="onSubmit()"
-  >
-    Create
-  </button>
-</div>
-<div class="results" *ngIf="createReturn">
-  <app-return-summary [result]="createReturn"></app-return-summary>
+  <div class="results" *ngIf="createReturn">
+    <app-return-summary [result]="createReturn"></app-return-summary>
+  </div>
 </div>

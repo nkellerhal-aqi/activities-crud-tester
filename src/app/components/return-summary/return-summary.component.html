@@ -1,6 +1,22 @@
 <div *ngIf="summary">
-  <div class="summary-field">{{ "Status code: " + summary.code }}</div>
-  <div class="summary-field">{{ "Details: " + summary.detail }}</div>
+  <div
+    [class]="
+      summary.statusCode === 200 || summary.statusCode === 201
+        ? 'success-text'
+        : 'error-text'
+    "
+  >
+    {{ "Status code: " + summary.statusCode }}
+  </div>
+  <div
+    [class]="
+      summary.statusCode === 200 || summary.statusCode === 201
+        ? 'success-text'
+        : 'error-text'
+    "
+  >
+    {{ "Details: " + summary.detail }}
+  </div>
 </div>
 <div *ngIf="activities.length > 0">
   <ul>
