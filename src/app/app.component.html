@@ -1,0 +1,39 @@
+<h3>Activies CRUD tester</h3>
+<div class="context-row">
+  <div class="form-field">
+    <label for="authToken">Auth Token:</label>
+    <input
+      type="text"
+      id="authToken"
+      name="authToken"
+      placeholder="Please provide authentication token"
+      required
+      [(ngModel)]="authToken"
+      (ngModelChange)="updateAuthToken()"
+    />
+    <div class="error-text" *ngIf="!authToken">
+      Authentication token is required for all requests
+    </div>
+  </div>
+  <div class="form-field">
+    <label for="environment">Environment:</label>
+    <select
+      id="environment"
+      name="environment"
+      [(ngModel)]="environment"
+      (ngModelChange)="updateEnvironment()"
+    >
+      <option value="feature">Feature</option>
+      <option value="integration">Integration</option>
+      <option value="stage">Stage</option>
+    </select>
+  </div>
+</div>
+<div class="nav-row">
+  <button type="button" [class]="router.url === '/get-many' ? 'nav-active' : ''" routerLink="get-many">Get many</button>
+  <button type="button" [class]="router.url === '/get' ? 'nav-active' : ''" routerLink="get">Get by ID</button>
+  <button type="button" [class]="router.url === '/create' ? 'nav-active' : ''" routerLink="create">Create</button>
+  <button type="button" [class]="router.url === '/update' ? 'nav-active' : ''" routerLink="update">Update</button>
+  <button type="button" [class]="router.url === '/delete' ? 'nav-active' : ''" routerLink="delete">Delete</button>
+</div>
+<router-outlet></router-outlet>

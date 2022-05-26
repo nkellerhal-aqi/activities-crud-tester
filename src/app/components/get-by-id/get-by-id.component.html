@@ -1,0 +1,37 @@
+<h3>Get By ID</h3>
+<div class="get-by-id-container">
+  <form #getForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="id">ID</label>
+      <input
+        type="text"
+        id="id"
+        name="id"
+        placeholder="activity id"
+        [(ngModel)]="id"
+        required
+      />
+    </div>
+    <div class="form-field">
+      <label>
+        <input
+          type="checkbox"
+          id="includeDescendants"
+          name="includeDescendants"
+          [(ngModel)]="model.includeDescendants"
+        />
+        Include descendants
+      </label>
+    </div>
+    <button
+      type="submit"
+      class="btn btn-success"
+      [disabled]="!getForm['form'].valid"
+    >
+      Submit
+    </button>
+  </form>
+  <div class="results" *ngIf="activityReturn">
+    <app-return-summary [result]="activityReturn"></app-return-summary>
+  </div>
+</div>

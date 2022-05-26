@@ -1,0 +1,27 @@
+<div *ngIf="summary">
+  <div
+    [class]="
+      summary.statusCode === 200 || summary.statusCode === 201
+        ? 'success-text'
+        : 'error-text'
+    "
+  >
+    {{ "Status code: " + summary.statusCode }}
+  </div>
+  <div
+    [class]="
+      summary.statusCode === 200 || summary.statusCode === 201
+        ? 'success-text'
+        : 'error-text'
+    "
+  >
+    {{ "Details: " + summary.detail }}
+  </div>
+</div>
+<div *ngIf="activities.length > 0">
+  <ul>
+    <ng-container *ngFor="let activity of activities">
+      <app-activity-summary [activity]="activity"></app-activity-summary>
+    </ng-container>
+  </ul>
+</div>

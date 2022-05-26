@@ -1,0 +1,161 @@
+<h3>Create</h3>
+<div class="create-container">
+  <form #createForm="ngForm" (ngSubmit)="onAdd()">
+    <div class="form-field">
+      <label for="authTwinRefId">Auth twin:</label>
+      <input
+        type="text"
+        id="authTwinRefId"
+        name="authTwinRefId"
+        placeholder="auth twin id"
+        [(ngModel)]="model.authTwinRefId"
+      />
+    </div>
+    <div class="form-field">
+      <label for="id">ID:</label>
+      <input
+        type="text"
+        id="id"
+        name="id"
+        placeholder="activity id"
+        [(ngModel)]="model.id"
+      />
+    </div>
+    <div class="form-field">
+      <label for="parentId">Parent:</label>
+      <input
+        type="text"
+        id="parentId"
+        name="parentId"
+        placeholder="parent id"
+        [(ngModel)]="model.parentId"
+      />
+    </div>
+    <div class="form-field">
+      <label for="scheduleId">Schedule:</label>
+      <input
+        type="text"
+        id="scheduleId"
+        name="scheduleId"
+        placeholder="schedule id"
+        [(ngModel)]="model.scheduleId"
+      />
+    </div>
+    <div class="form-field">
+      <label for="activityTypeId">Type:</label>
+      <input
+        type="text"
+        id="activityTypeId"
+        name="activityTypeId"
+        placeholder="activity type id"
+        [(ngModel)]="model.activityTypeId"
+        required
+      />
+    </div>
+    <div class="form-field">
+      <label for="priorityCode">Priority:</label>
+      <select
+        id="priorityCode"
+        name="priorityCode"
+        [(ngModel)]="model.priorityCode"
+      >
+        <option [value]="0">Unknown</option>
+        <option [value]="1">Low</option>
+        <option [value]="2">Normal</option>
+        <option [value]="3">High</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="statusCode">Status:</label>
+      <select id="statusCode" name="statusCode" [(ngModel)]="model.statusCode">
+        <option [value]="0">Unknown</option>
+        <option [value]="1">Open</option>
+        <option [value]="2">Completed</option>
+        <option [value]="3">Canceled</option>
+        <option [value]="4">Blocked</option>
+        <option [value]="5">In progress</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="startTime">Start time:</label>
+      <input
+        type="date"
+        id="startTime"
+        name="startTime"
+        [(ngModel)]="model.startTime"
+      />
+    </div>
+    <div class="form-field">
+      <label for="endTime">End time:</label>
+      <input
+        type="date"
+        id="endTime"
+        name="endTime"
+        [(ngModel)]="model.endTime"
+      />
+    </div>
+    <div class="form-field">
+      <label for="subject">Subject:</label>
+      <input
+        type="text"
+        id="subject"
+        name="subject"
+        placeholder="subject"
+        [(ngModel)]="model.subject"
+        required
+      />
+    </div>
+    <div class="form-field">
+      <label for="description">Description:</label>
+      <input
+        type="text"
+        id="description"
+        name="description"
+        placeholder="description"
+        [(ngModel)]="model.description"
+        required
+      />
+    </div>
+    <div class="form-field">
+      <label for="propertyBag">Property Bag:</label>
+      <input
+        type="text"
+        id="propertyBag"
+        name="propertyBag"
+        placeholder="propertyBag"
+        [(ngModel)]="model.propertyBag"
+      />
+    </div>
+    <button
+      type="submit"
+      class="btn btn-success"
+      [disabled]="!createForm['form'].valid"
+    >
+      Add
+    </button>
+    <div
+      class="create-collection"
+      *ngIf="createCollection && createCollection.length > 0"
+    >
+      <h4>Ready to Create</h4>
+      <table>
+        <tr *ngFor="let activity of createCollection">
+          <td>{{ activity.subject }}</td>
+          <td>{{ getStatusDisplay(activity) }}</td>
+          <td>{{ getPriorityDisplay(activity) }}</td>
+        </tr>
+      </table>
+      <button
+        type="button"
+        class="btn btn-success"
+        [disabled]="createCollection.length <= 0"
+        (click)="onSubmit()"
+      >
+        Create
+      </button>
+    </div>
+  </form>
+  <div class="results" *ngIf="createReturn">
+    <app-return-summary [result]="createReturn"></app-return-summary>
+  </div>
+</div>

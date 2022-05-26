@@ -1,0 +1,10 @@
+.get-by-id-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  form {
+    width: 30vw;
+    min-width: 250px;
+  }
+}
